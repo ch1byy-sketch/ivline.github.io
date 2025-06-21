@@ -30,33 +30,45 @@
 <body>
   <h2>Заполнить отчёт</h2>
 
-  <label>Объект</label>
+  <label for="object">Объект</label>
   <input type="text" id="object" placeholder="Например, Линия-102" />
 
-  <label>Материалы</label>
+  <label for="materials">Материалы</label>
   <input type="text" id="materials" placeholder="Трубы, краны..." />
 
-  <label>Часы работы</label>
+  <label for="hours">Часы работы</label>
   <input type="number" id="hours" min="0" max="24" />
 
-  <label>Что сделано</label>
+  <label for="workDone">Что сделано</label>
   <textarea id="workDone" rows="4" placeholder="Описание выполненных работ..."></textarea>
 
-  <button onclick="submitForm()">Отправить</button>
+  <button id="submitBtn">Отправить</button>
 
   <script>
-    function submitForm() {
-      const data = {
-        object: document.getElementById('object').value,
-        materials: document.getElementById('materials').value,
-        hours: document.getElementById('hours').value,
-        workDone: document.getElementById('workDone').value
-      };
-      Telegram.WebApp.sendData(JSON.stringify(data));
-    }
+    window.addEventListener("DOMContentLoaded", () => {
+      // Проверка, что Telegram.WebApp доступен
+      if (typeof Telegram === "undefined" || typeof Telegram.WebApp === "undefined") {
+        alert("Ошибка: Мини-приложение должно быть запущено через Telegram.");
+        console.error("Telegram или Telegram.WebApp не определены.");
+        return;
+      }
 
-    Telegram.WebApp.ready();
+      // Telegram WebApp готов
+      Telegram.WebApp.ready();
+
+      // Обработчик кнопки
+      document.getElementById("submitBtn").addEventListener("click", () => {
+        const data = {
+          object: document.getElementById("object").value,
+          materials: document.getElementById("materials").value,
+          hours: document.getElementById("hours").value,
+          workDone: document.getElementById("workDone").value
+        };
+
+        console.log("Отправка данных:", data);
+        Telegram.WebApp.sendData(JSON.stringify(data));
+      });
+    });
   </script>
 </body>
 </html>
-
