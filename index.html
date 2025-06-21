@@ -5,70 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Заполнить отчёт</title>
   <style>
-    body {
-      font-family: sans-serif;
-      padding: 20px;
-      background: #f1f1f1;
-    }
-    label, input, select, textarea {
-      display: block;
-      width: 100%;
-      margin-bottom: 15px;
-      font-size: 16px;
-    }
-    button {
-      padding: 10px;
-      background: #0099ff;
-      color: white;
-      border: none;
-      width: 100%;
-      font-size: 18px;
-      cursor: pointer;
-    }
+    body { font-family: sans-serif; padding: 20px; background: #f1f1f1; }
+    label, input, textarea { display: block; width: 100%; margin-bottom: 15px; font-size: 16px; }
+    button { padding: 10px; background: #0099ff; color: white; border: none; width: 100%; font-size: 18px; cursor: pointer; }
   </style>
 </head>
 <body>
   <h2>Заполнить отчёт</h2>
 
-  <label for="object">Объект</label>
-  <input type="text" id="object" placeholder="Например, Линия-102" />
+  <label>Объект</label>
+  <input type="text" id="object" />
 
-  <label for="materials">Материалы</label>
-  <input type="text" id="materials" placeholder="Трубы, краны..." />
+  <label>Материалы</label>
+  <input type="text" id="materials" />
 
-  <label for="hours">Часы работы</label>
-  <input type="number" id="hours" min="0" max="24" />
+  <label>Часы работы</label>
+  <input type="number" id="hours" />
 
-  <label for="workDone">Что сделано</label>
-  <textarea id="workDone" rows="4" placeholder="Описание выполненных работ..."></textarea>
+  <label>Что сделано</label>
+  <textarea id="workDone" rows="4"></textarea>
 
-  <button id="submitBtn">Отправить</button>
+  <button onclick="submitForm()">Отправить</button>
 
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script>
-    window.addEventListener("DOMContentLoaded", () => {
-      // Проверка, что Telegram.WebApp доступен
-      if (typeof Telegram === "undefined" || typeof Telegram.WebApp === "undefined") {
-        alert("Ошибка: Мини-приложение должно быть запущено через Telegram.");
-        console.error("Telegram или Telegram.WebApp не определены.");
-        return;
-      }
+    Telegram.WebApp.ready();
 
-      // Telegram WebApp готов
-      Telegram.WebApp.ready();
-
-      // Обработчик кнопки
-      document.getElementById("submitBtn").addEventListener("click", () => {
-        const data = {
-          object: document.getElementById("object").value,
-          materials: document.getElementById("materials").value,
-          hours: document.getElementById("hours").value,
-          workDone: document.getElementById("workDone").value
-        };
-
-        console.log("Отправка данных:", data);
-        Telegram.WebApp.sendData(JSON.stringify(data));
-      });
-    });
+    function submitForm() {
+      const data = {
+        object: document.getElementById('object').value,
+        materials: document.getElementById('materials').value,
+        hours: document.getElementById('hours').value,
+        workDone: document.getElementById('workDone').value
+      };
+      Telegram.WebApp.sendData(JSON.stringify(data));
+    }
   </script>
 </body>
 </html>
