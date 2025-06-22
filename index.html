@@ -52,6 +52,8 @@
         hours: document.getElementById("hours").value,
         workDone: document.getElementById("workDone").value
       };
+        console.log("Отправляем данные:", data);
+  alert("Отправляем данные: " + JSON.stringify(data)); 
       Telegram.WebApp.sendData(JSON.stringify(data));
     }
      </script>
